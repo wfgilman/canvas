@@ -48,15 +48,19 @@ class ViewController: UIViewController {
             
             let velocity = sender.velocity(in: trayView)
             
-            if velocity.y < 0 {
+            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: CGFloat(0.6), initialSpringVelocity: CGFloat(1.0), options: [], animations: {
                 
-                trayView.center = trayCenterWhenOpen
-            
-            } else {
+                if velocity.y < 0 {
+                    
+                    self.trayView.center = self.trayCenterWhenOpen
+                    
+                } else {
+                    
+                    self.trayView.center = self.trayCenterWhenClosed
+                }
                 
-//                trayView.center = CGPoint(x: trayOriginalCenter.x, y: trayOriginalCenter.y + translation.y)
-                trayView.center = trayCenterWhenClosed
-            }
+            }, completion: nil)
+
             
         } else if sender.state == .ended {
             

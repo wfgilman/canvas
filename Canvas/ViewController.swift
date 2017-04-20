@@ -22,6 +22,8 @@ class ViewController: UIViewController {
     var trayOriginalCenter: CGPoint!
     var trayCenterWhenOpen: CGPoint!
     var trayCenterWhenClosed: CGPoint!
+    var newlyCreatedFace: UIImageView!
+    var faceOriginalCenter: CGPoint!
     
     
     override func viewDidLoad() {
@@ -34,17 +36,19 @@ class ViewController: UIViewController {
 
     @IBAction func onPanGesture(_ sender: UIPanGestureRecognizer) {
         
-        let location = sender.location(in: view)
+        print("asfsfdfasdfa")
+        
+//        let location = sender.location(in: view)
         // let translation = sender.translation(in: view)
         
         if sender.state == .began {
             
-            print("Gesture began at: \(location)")
+//            print("Gesture began at: \(location)")
             trayOriginalCenter = trayView.center
             
         } else if sender.state == .changed {
             
-            print("Gesture changed at: \(location)")
+//            print("Gesture changed at: \(location)")
             
             let velocity = sender.velocity(in: trayView)
             
@@ -64,9 +68,32 @@ class ViewController: UIViewController {
             
         } else if sender.state == .ended {
             
-            print("Gesture ended at: \(location)")
+//            print("Gesture ended at: \(location)")
         }
     }
+    
+    @IBAction func newFace(_ sender: UIPanGestureRecognizer) {
+        
+        if sender.state == .began {
+            
+            let imageView = sender.view as! UIImageView
+            newlyCreatedFace = UIImageView(image: imageView.image)
+            view.addSubview(newlyCreatedFace!)
+            newlyCreatedFace.center = imageView.center
+            newlyCreatedFace.center.y += trayView.frame.origin.y
+            faceOriginalCenter = newlyCreatedFace.center
+
+        } else if sender.state == .changed {
+            
+            let translation = sender.translation(in: view)
+            
+            newlyCreatedFace.center = CGPoint(x: faceOriginalCenter.x + translation.x, y: faceOriginalCenter.y + translation.y)
+            
+        } else if sender.state == .ended {
+            
+        }
+    }
+    
 
 }
 
